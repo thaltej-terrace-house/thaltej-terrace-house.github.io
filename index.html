@@ -660,7 +660,10 @@ footer{padding:28px 0 100px;font-size:13px;color:var(--muted);background:#0C1830
   // UTM capture
   const q = new URLSearchParams(location.search);
   const f = document.getElementById('leadForm');
-  ['utm_source','utm_campaign','utm_content'].forEach(k => f.elements[k].value = q.get(k) || '');
+  // Ad labels: utm_ tags first. Plain backups (src, camp, ad) are used when a browser strips utm_ tags.
+  f.elements.utm_source.value = q.get('utm_source') || q.get('src') || '';
+  f.elements.utm_campaign.value = q.get('utm_campaign') || q.get('camp') || '';
+  f.elements.utm_content.value = q.get('utm_content') || q.get('ad') || '';
   f.elements.page.value = location.href.split('?')[0];
 
   // Submit
